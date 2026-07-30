@@ -29,13 +29,13 @@ obj <- FindVariableFeatures(obj, nfeatures = 3000) # does it on the raw counts
 obj <- JoinLayers(obj)
 #---
 
-# Split the object by subject/individual
-obj <- SplitObject(obj, split.by = "new_id") 
-
 #--- Alternative to ScaleData for M3Drop instead due to their internal scaling
 obj <- SetAssayData(obj, layer = "scale.data", new.data = as.matrix(GetAssayData(obj, layer = "counts")))
 obj <- SetAssayData(obj, layer = "data", new.data = as.matrix(GetAssayData(obj, layer = "counts")))
 #---
+
+# Split the object by subject/individual
+obj <- SplitObject(obj, split.by = "new_id") 
 
 # Setup the variables to store results
 jaccard_scores <- list()
