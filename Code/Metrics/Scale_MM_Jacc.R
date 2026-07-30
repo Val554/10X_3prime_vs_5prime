@@ -30,8 +30,8 @@ obj <- JoinLayers(obj)
 #---
 
 #--- Alternative to ScaleData for M3Drop instead due to their internal scaling
-obj <- SetAssayData(obj, layer = "scale.data", new.data = as.matrix(GetAssayData(obj, layer = "counts")))
-obj <- SetAssayData(obj, layer = "data", new.data = as.matrix(GetAssayData(obj, layer = "counts")))
+obj <- SetAssayData(obj, layer = "scale.data", new.data = GetAssayData(obj, layer = "counts"))
+obj <- SetAssayData(obj, layer = "data", new.data = GetAssayData(obj, layer = "counts"))
 #---
 
 # Split the object by subject/individual
