@@ -244,7 +244,7 @@ saveRDS(split_df, paste0("./",ds,"FINAL_%_all_DSandTechniques_to_baseline.rds"))
 
 ## For HVFs
 ds <- "" #updated_ for HVFs and 800_ for biased genes
-DS1 <- readRDS(paste0("./Visual Objects/",ds,"_all_techniques_averages_per_metric.rds"))
+DS1 <- readRDS(paste0("./Visual Objects/",ds,"all_techniques_averages_per_metric.rds"))
 DS1$DS <- "DS1"
 DS2_spleen <- readRDS(paste0("./Visual Objects/",ds,"all_techniques_averages_per_metric_spleen.rds"))
 DS2_spleen$DS <- "DS2sp"
