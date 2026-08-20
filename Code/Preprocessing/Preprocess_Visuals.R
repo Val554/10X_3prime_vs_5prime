@@ -437,5 +437,63 @@ ds_clean@meta.data <- droplevels(ds_clean@meta.data)
 
 saveRDS(ds_clean, "./prep_FINAL.rds")
 
+## ----- Validation Datasets ----- ##
 
+### ---- DATASET 1 ------ 
+# Sample id - donor_id
+# 3' or 5' - assay
+# Cell Type - broad_cell_type
+
+ds <- readRDS("./data.RDS")
+ds <- subset(ds, assay %in% c("10x 3' v3", "10x 5' v1"))
+
+# Visualizations are done similarly to dataset 1.
+
+#-------- Preprocess ------ 
+
+split_ds <- SplitObject(ds, split.by = "donor_id")
+
+for(i in 1:length(split_ds)) {
+  split_ds[[i]] <- clean_seurat(split_ds[[i]])
+  levels(as.factor(split_ds[[i]]@meta.data$merged_cell_type))
+}
+
+ds_clean<- merge(split_ds[[1]], y = split_ds[-1])
+ds_clean@meta.data <- droplevels(ds_clean@meta.data)
+ds_clean <- JoinLayers(ds_clean)
+
+ds_clean@meta.data$new_id <- ds_clean@meta.data$donor_id
+ds_clean@meta.data$orig_cell_type_ontology_term_id <- ds_clean@meta.data$cell_type_ontology_term_id
+ds_clean@meta.data$cell_type_ontology_term_id <- ds_clean@meta.data$broad_cell_type
+ds_clean@meta.data <- droplevels(ds_clean@meta.data)
+
+saveRDS(ds_clean, "./prep_FINAL.rds")
+
+### ---- DATASET 2 ------ 
+# Sample id - donor_id
+# 3' or 5' - assay
+# Cell Type - broad_cell_type
+
+ds <- readRDS("./data.RDS")
+
+ds$sort_tis <- paste0(ds$tissue, "_", ds$Sort_id)
+ds$don_sort_tis <- paste0(ds$donor_id, "_", ds$sort_tis)
+samples <- c("F45_kidney_CD45N", "F45_skin of body_CD45P", "F38_skin of body_CD45P", "F45_liver_CD45P")
+ds <- subset(ds, (don_sort_tis %in% samples)) 
+ds@meta.data <- droplevels(ds@meta.data) # drop unused levels if needed
+
+# Visualizations are done similarly to dataset 1.
+
+#-------- Preprocess ------ 
+# Preprocessing and cell type merging is done similarly to dataset 2
+#...
+
+ds_clean@meta.data$new_id <- ds_clean@meta.data$donor_id
+ds_clean@meta.data$orig_cell_type_ontology_term_id <- ds_clean@meta.data$cell_type_ontology_term_id
+ds_clean@meta.data$cell_type_ontology_term_id <- ds_clean@meta.data$merged_cell_type
+ds_clean@meta.data <- droplevels(ds_clean@meta.data)
+
+saveRDS(subset(ds_clean, tissue == "skin of body"), "./prep_FINAL_skin.rds")
+saveRDS(subset(ds_clean, tissue == "kidney"), "./prep_FINAL_kidney.rds")
+saveRDS(subset(ds_clean, tissue == "liver"), "./prep_FINAL_liver.rds")
 
