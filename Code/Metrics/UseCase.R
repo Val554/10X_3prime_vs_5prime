@@ -68,11 +68,11 @@ for(i in names(data_3)) {
   obj_3 <- NormalizeData(obj_3, normalization.method = "LogNormalize", scale.factor = 10000)
   obj_5 <- NormalizeData(obj_5, normalization.method = "LogNormalize", scale.factor = 10000)
   
-  # -> to calculate the diff, notFC
+  # Set the assays into appreopriate layer to calculate the difference (not FC)
   obj_3 <- SetAssayData(obj_3, layer = "scale.data", new.data = GetAssayData(obj_3, layer = "data"))
   obj_5 <- SetAssayData(obj_5, layer = "scale.data", new.data = GetAssayData(obj_5, layer = "data"))
   
-  # -> alternative (noFC)
+  # Get the DEGs
   gold3 <- FindMarkers(obj_3, ident.1 = cell_type1, ident.2 = cell_type2, logfc.threshold = 0, min.pct = 0, min.cells.feature = 0, min.cells.group = 0, return.thresh = 1.5, fc.slot = "scale.data")
   gold5 <- FindMarkers(obj_5, ident.1 = cell_type1, ident.2 = cell_type2, logfc.threshold = 0, min.pct = 0, min.cells.feature = 0, min.cells.group = 0, return.thresh = 1.5, fc.slot = "scale.data")
 
@@ -87,7 +87,7 @@ for(i in names(data_3)) {
   raw_markers[[paste0(i, "_3")]] <- gold3
   raw_markers[[paste0(i, "_5")]] <- gold5
   
-  # -> alternative (noFC)
+  # Set the desired thresholds 
   truth[[i]] <- data.frame(
     gene = rownames(gold3),
     dir_sig = ifelse((gold3$p_val_adj < 0.05 & gold5$p_val_adj < 0.05) & (sign(gold3$avg_diff) == sign(gold5$avg_diff)),
