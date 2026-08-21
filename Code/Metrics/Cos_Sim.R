@@ -303,7 +303,7 @@ result_list[["CellCounts"]] <- cell_count_list
 
 result_list[["Genes"]] <- prop_rand
 
-saveRDS(result_list, paste0("/Volumes/Elements/Thesis/UseCases/res/final/DS",set,"_cos_",num,"_rand_prop_SCALED.rds"))
+saveRDS(result_list, paste0("./DS",set,"_cos_",num,"_rand_prop_SCALED.rds"))
 
 #### Random List 2
 result_list <- list()
@@ -401,7 +401,7 @@ result_list[["CellCounts"]] <- cell_count_list
 
 result_list[["Genes"]] <- prop_rand2
 
-saveRDS(result_list, paste0("/Volumes/Elements/Thesis/UseCases/res/final/DS",set,"_cos_",num,"_rand_prop_2_SCALED.rds"))
+saveRDS(result_list, paste0("./DS",set,"_cos_",num,"_rand_prop_2_SCALED.rds"))
 
 ### Random List 3
 result_list <- list()
@@ -499,7 +499,7 @@ result_list[["CellCounts"]] <- cell_count_list
 
 result_list[["Genes"]] <- prop_rand3
 
-saveRDS(result_list, paste0("/Volumes/Elements/Thesis/UseCases/res/final/DS",set,"_cos_",num,"_rand_prop_3_SCALED.rds"))
+saveRDS(result_list, paste0("./DS",set,"_cos_",num,"_rand_prop_3_SCALED.rds"))
 
 
 ### General lists
@@ -610,7 +610,7 @@ result_list[["CellCounts"]] <- cell_count_list
 
 result_list[["Genes"]] <- common_ind
 
-saveRDS(result_list, paste0("/Volumes/Elements/Thesis/UseCases/res/final/DS",set,"_cos_",num,"_SCALED.rds"))
+saveRDS(result_list, paste0("./DS",set,"_cos_",num,"_SCALED.rds"))
 
 
 
