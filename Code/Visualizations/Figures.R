@@ -346,15 +346,15 @@ split_df <- readRDS("./updated_FINAL_%_all_DSandTechniques_to_baseline.rds")
 split_df <- readRDS("./800_FINAL_%_all_DSandTechniques_to_baseline.rds")
 
 ## Plotting
-split_df$corr$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$corr$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                             "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$cos$norm <- factor(split_df$cos$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$cos$norm <- factor(split_df$cos$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                           "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$Euc$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$Euc$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$MSE$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$MSE$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$JSD$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$JSD$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 
 pref <- "800_"
@@ -607,6 +607,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z-transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
@@ -679,6 +680,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z-transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
@@ -791,6 +793,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z-transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
@@ -852,22 +855,17 @@ DS <- "" # Specify
 
 log <- readRDS(paste0("./",DS,"_logN_MCC_25",indiv,".rds"))
 fast <- readRDS(paste0("./",DS,"_fast_MCC_25",indiv,".rds"))
+scanorama <- readRDS(paste0("./",DS,"_scanorama_MCC_25",indiv,".rds"))
 limma <- readRDS(paste0("./",DS,"_limma_MCC_25",indiv,".rds"))
 m3drop <- readRDS(paste0("./",DS,"_M3Drop_MCC_25",indiv,".rds"))
 scvi <- readRDS(paste0("./",DS,"_scvi_MCC_25",indiv,".rds"))
-
-print("25% overlap")
-log
-fast
-limma
-m3drop
-scvi
 
 # Combine into a list
 lst <- list(
   Log_Normalize = log,
   limma = limma,
   fastMNN = fast,
+  Scanorama = scanorama,
   SCVI = scvi,
   M3Drop = m3drop
 )
@@ -894,6 +892,7 @@ col <- scale_fill_manual(values = c(
   "Log_Normalize" = "lightgrey",
   "limma" = "#1f78b4",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "SCVI" = "#fdbf6f",
   "M3Drop" = "#e31a1c"
 ))
@@ -928,22 +927,17 @@ ggplot(df,  aes(x = group, y = value, fill = group)) +
 
 log <- readRDS(paste0("./",DS,"_logN_MCC_100",indiv,".rds"))
 fast <- readRDS(paste0("./",DS,"_fast_MCC_100",indiv,".rds"))
+scanorama <- readRDS(paste0("./",DS,"_scanorama_MCC_100",indiv,".rds"))
 limma <- readRDS(paste0("./",DS,"_limma_MCC_100",indiv,".rds"))
 m3drop <- readRDS(paste0("./",DS,"_M3Drop_MCC_100",indiv,".rds"))
 scvi <- readRDS(paste0("./",DS,"_scvi_MCC_100",indiv,".rds"))
-
-print("100% overlap")
-log
-fast
-limma
-m3drop
-scvi
 
 # Combine into a list
 lst <- list(
   Log_Normalize = log,
   limma = limma,
   fastMNN = fast,
+  Scanorama = scanorama,
   SCVI = scvi,
   M3Drop = m3drop
 )
@@ -995,46 +989,6 @@ ggplot(df,  aes(x = group, y = value, fill = group)) +
   guides(fill = "none")
 
 
-### ----- Figure 5: ----- 
-
-#### Venn Diagram #####
-truth <- readRDS("./DS1_intersect_truth_labels_intersect_noFC.rds") 
-markers <- truth$gene[truth$dir_sig == "up" | truth$dir_sig == "down"]
-
-gene_table <- readRDS("./DS_all_3_vs_5_sign_by_indiv_1e-50.rds")
-common_ind <- c(names(gene_table[gene_table %in% c(5:35)])) # 800: 50
-
-length(intersect(markers, common_ind))
-
-con <- useEnsembl("ensembl", dataset = "hsapiens_gene_ensembl")
-ens_genes <- getBM(attributes = c("ensembl_gene_id",
-                                  "external_gene_name"),
-                   filters = "ensembl_gene_id",
-                   values = intersect(markers, common_ind),
-                   mart = con)
-
-truth <- readRDS("./DS2lv_intersect_truth_labels_intersect_noFC.rds")
-markers2 <- truth$gene[truth$dir_sig == "up" | truth$dir_sig == "down"]
-
-length(intersect(markers2, common_ind)) 
-
-con <- useEnsembl("ensembl", dataset = "hsapiens_gene_ensembl")
-ens_genes <- getBM(attributes = c("ensembl_gene_id",
-                                  "external_gene_name"),
-                   filters = "ensembl_gene_id",
-                   values = intersect(markers2, common_ind),
-                   mart = con)
-
-intersect(markers, markers2) 
-
-x <- intersect(intersect(markers, common_ind), intersect(markers6, common_ind)) 
-
-truth <- readRDS("./DS6_intersect_truth_labels_intersect_noFC.rds")
-markers6 <- truth$gene[truth$dir_sig == "up" | truth$dir_sig == "down"]
-
-length(intersect(markers6, common_ind))
-
-
 #### Expression ##### 
 DS <- "" # Specify
 
@@ -1045,12 +999,14 @@ limma <- readRDS(paste0("./",DS,"_merged_limma_25.rds"))
 logN <- readRDS(paste0("./",DS,"_merged_logN_25.rds"))
 M3 <- readRDS(paste0("./",DS,"_merged_M3Drop_25.rds"))
 scvi <- readRDS(paste0("./",DS,"_merged_scvi_25.rds"))
+scanorama <- readRDS(paste0("./",DS,"_merged_scanorama_25.rds"))
 
 fast_MM <- readRDS(paste0("./",DS,"_fast_test_labels_25_noFC.rds"))
 limma_MM <- readRDS(paste0("./",DS,"_limma_test_labels_25_noFC.rds"))
 logN_MM <- readRDS(paste0("./",DS,"_logN_test_labels_25_noFC.rds"))
 M3_MM <- readRDS(paste0("./",DS,"_M3Drop_test_labels_25_noFC.rds"))
 scvi_MM <- readRDS(paste0("./",DS,"_scvi_test_labels_25_noFC.rds"))
+scanorama_MM <- readRDS(paste0("./",DS,"_scanorama_test_labels_25_noFC.rds"))
 
 # Summary of DE direction
 df <- data.frame(method = "Truth", direction = c("up", "down"), value = c(sum(truth$dir_sig == "up"), sum(truth$dir_sig == "down")), indiv = "all")
@@ -1115,8 +1071,21 @@ sum <- unlist(sum)
 new_rows <- data.frame(method = rep("SCVI",length(sum)), direction = c(rep(c("down","up"),length(sum)/2)), value = sum, indiv = names(sum))
 df <- rbind(df, new_rows)
 
+#scanorama
+table(Scanorama_MM[[1]]$dir_sig)[c(1,3)]
+# -> Prop of up/down between the truth and individual in each method
+sum <- lapply(Scanorama_MM, function(x) {
+  print(table(x$dir_sig))
+  res <- table(x$dir_sig)[c(1,3)]
+  return(res)
+}
+)
+sum <- unlist(sum)
+new_rows <- data.frame(method = rep("Scanorama",length(sum)), direction = c(rep(c("down","up"),length(sum)/2)), value = sum, indiv = names(sum))
+df <- rbind(df, new_rows)
+
 df$individual <- gsub("\\..*", "", df$indiv) # optional 
-df$method <- factor(df$method, levels = c("Truth", "Log Normalize", "limma", "fastMNN", "SCVI", "M3Drop"))
+df$method <- factor(df$method, levels = c("Truth", "Log Normalize", "limma", "fastMNN", "Scanorama", "SCVI", "M3Drop"))
 df$direction <- factor(df$direction, levels = c("up", "down"))
 
 saveRDS(df, paste0("./",DS,"_PLOT_UP_DOWN_noFC.rds"))
@@ -1166,6 +1135,46 @@ ggplot(df, aes(x = direction, y = value, fill = method)) +
     breaks = seq(0, 25000, 5000)
   )
 
+
+### ----- Figure 5: ----- 
+
+#### Venn Diagram #####
+truth <- readRDS("./DS1_intersect_truth_labels_intersect_noFC.rds") 
+markers <- truth$gene[truth$dir_sig == "up" | truth$dir_sig == "down"]
+
+gene_table <- readRDS("./DS_all_3_vs_5_sign_by_indiv_1e-50.rds")
+common_ind <- c(names(gene_table[gene_table %in% c(5:35)])) # 800: 50
+
+length(intersect(markers, common_ind))
+
+con <- useEnsembl("ensembl", dataset = "hsapiens_gene_ensembl")
+ens_genes <- getBM(attributes = c("ensembl_gene_id",
+                                  "external_gene_name"),
+                   filters = "ensembl_gene_id",
+                   values = intersect(markers, common_ind),
+                   mart = con)
+
+truth <- readRDS("./DS2lv_intersect_truth_labels_intersect_noFC.rds")
+markers2 <- truth$gene[truth$dir_sig == "up" | truth$dir_sig == "down"]
+
+length(intersect(markers2, common_ind)) 
+
+con <- useEnsembl("ensembl", dataset = "hsapiens_gene_ensembl")
+ens_genes <- getBM(attributes = c("ensembl_gene_id",
+                                  "external_gene_name"),
+                   filters = "ensembl_gene_id",
+                   values = intersect(markers2, common_ind),
+                   mart = con)
+
+intersect(markers, markers2) 
+
+x <- intersect(intersect(markers, common_ind), intersect(markers6, common_ind)) 
+
+truth <- readRDS("./DS6_intersect_truth_labels_intersect_noFC.rds")
+markers6 <- truth$gene[truth$dir_sig == "up" | truth$dir_sig == "down"]
+
+length(intersect(markers6, common_ind))
+
 #### Ridge Plots ####
 
 ##### ------ DS1 - Treg vd CD8 -----
@@ -1174,6 +1183,7 @@ DS <- "DS1"
 
 fast <- readRDS(paste0("./",DS,"_merged_fast_25.rds"))
 limma <- readRDS(paste0("./",DS,"_merged_limma_25.rds"))
+Scanorama <- readRDS(paste0("./",DS,"_merged_scanorama_25.rds"))
 logN <- readRDS(paste0("./",DS,"_merged_logN_25.rds"))
 M3 <- readRDS(paste0("./",DS,"_merged_M3Drop_25.rds"))
 scvi <- readRDS(paste0("./",DS,"_merged_scvi_25.rds"))
@@ -1375,6 +1385,33 @@ RidgePlot(scvi, features = "ENSG00000049768", idents = c("CD8, αβ T cell", "Re
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "CD8-positive, alpha-beta T cell" = "CD8, αβ T cell",
+  "regulatory T cell" = "Regulatory T cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Regulatory T cell", "CD8, αβ T cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000049768", idents = c("CD8, αβ T cell", "Regulatory T cell"), layer = "counts") + #FOXP3
+  scale_fill_manual(values = c(
+    "CD8, αβ T cell" = "#FF9B99",
+    "Regulatory T cell" = "#375DBE"
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
+
 ###### CD8A DOWN; GZMB DOWN #####
 
 list <- c("logN_MM", "fast_MM", "limma_MM", "M3_MM", "scvi_MM")
@@ -1563,6 +1600,32 @@ RidgePlot(scvi, features = "ENSG00000153563", idents = c("CD8, αβ T cell", "Re
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "CD8-positive, alpha-beta T cell" = "CD8, αβ T cell",
+  "regulatory T cell" = "Regulatory T cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("CD8, αβ T cell", "Regulatory T cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000153563", idents = c("CD8, αβ T cell", "Regulatory T cell"), layer = "counts") + #FOXP3
+  scale_fill_manual(values = c(
+    "CD8, αβ T cell" = "#FF9B99",
+    "Regulatory T cell" = "#375DBE"
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
 ###### ENSG00000019582 OVERLAP ####
 list <- c("logN_MM", "limma_MM", "fast_MM", "scvi_MM", "M3_MM")
 # check if this gene is in the list:
@@ -1619,7 +1682,6 @@ RidgePlot(subset(original, assay == "10x 5' v1"), features = "ENSG00000019582", 
         axis.ticks = element_line(color = "black"))
 
 # FastMNN
-
 Idents(fast) <- "cell_type"
 fast <- RenameIdents(
   fast,
@@ -1751,12 +1813,39 @@ RidgePlot(scvi, features = "ENSG00000019582", idents = c("CD8, αβ T cell", "Re
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "CD8-positive, alpha-beta T cell" = "CD8, αβ T cell",
+  "regulatory T cell" = "Regulatory T cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Regulatory T cell", "CD8, αβ T cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000019582", idents = c("CD8, αβ T cell", "Regulatory T cell"), layer = "counts") + #FOXP3
+  scale_fill_manual(values = c(
+    "CD8, αβ T cell" = "#FF9B99",
+    "Regulatory T cell" = "#375DBE"
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
 
 ##### ------ DS6 - B cell vs dendr -----
 DS <- "DS6"
 
 fast <- readRDS(paste0("./",DS,"_merged_fast_25.rds"))
 limma <- readRDS(paste0("./",DS,"_merged_limma_25.rds"))
+Scanorama <- readRDS(paste0("./",DS,"_merged_scanorama_25.rds"))
 logN <- readRDS(paste0("./",DS,"_merged_logN_25.rds"))
 M3 <- readRDS(paste0("./",DS,"_merged_M3Drop_25.rds"))
 scvi <- readRDS(paste0("./",DS,"_merged_scvi_25.rds"))
@@ -1944,6 +2033,31 @@ RidgePlot(scvi, features = "ENSG00000105369", idents = c("B cell", "Dendritic ce
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type_ontology_term_id"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "dendritic cell" = "Dendritic cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("B cell", "Dendritic cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000105369", idents = c("B cell", "Dendritic cell"), layer = "counts") + 
+  scale_fill_manual(values = c(
+    "Dendritic cell" = "#FF9B99",
+    "B cell" = "#375DBE" 
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
 ###### CST3  UP #####
 # check the significance
 list <- c("logN_MM", "fast_MM", "limma_MM", "M3_MM", "scvi_MM")
@@ -1997,7 +2111,6 @@ RidgePlot(subset(original, assay == "10x 5' v1"), features = "ENSG00000101439", 
         axis.ticks = element_line(color = "black"))
 
 # FastMNN
-
 Idents(fast) <- "cell_type_ontology_term_id"
 fast <- RenameIdents(
   fast,
@@ -2122,6 +2235,31 @@ RidgePlot(scvi, features = "ENSG00000101439", idents = c("B cell", "Dendritic ce
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type_ontology_term_id"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "dendritic cell" = "Dendritic cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Dendritic cell","B cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000101439", idents = c("B cell", "Dendritic cell"), layer = "counts") + 
+  scale_fill_manual(values = c(
+    "Dendritic cell" = "#FF9B99",
+    "B cell" = "#375DBE" 
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
 ###### ENSG00000002586  OVER #####
 # check the significance
 list <- c("logN_MM", "fast_MM", "limma_MM", "M3_MM", "scvi_MM")
@@ -2133,6 +2271,7 @@ for(j in list) {
     print(obj[[i]][obj[[i]]$gene == "ENSG00000002586", ])
   }
 }
+
 ###
 
 Idents(original) <- "cell_type_ontology_term_id"
@@ -2300,6 +2439,30 @@ RidgePlot(scvi, features = "ENSG00000002586", idents = c("B cell", "Dendritic ce
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type_ontology_term_id"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "dendritic cell" = "Dendritic cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Dendritic cell","B cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000002586", idents = c("B cell", "Dendritic cell"), layer = "counts") + 
+  scale_fill_manual(values = c(
+    "Dendritic cell" = "#FF9B99",
+    "B cell" = "#375DBE" 
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
 
 ##### ------ DS2lv - dendr vs NK -----
 DS <- "DS2lv"
@@ -2318,6 +2481,7 @@ for(j in list) {
 
 fast <- readRDS(paste0("./",DS,"_merged_fast_25.rds"))
 limma <- readRDS(paste0("./",DS,"_merged_limma_25.rds"))
+Scanorama <- readRDS(paste0("./",DS,"_merged_scanorama_25.rds"))
 logN <- readRDS(paste0("./",DS,"_merged_logN_25.rds"))
 M3 <- readRDS(paste0("./",DS,"_merged_M3Drop_25.rds"))
 scvi <- readRDS(paste0("./",DS,"_merged_scvi_25.rds"))
@@ -2484,6 +2648,32 @@ Idents(scvi) <- factor(Idents(scvi),
                      levels = c("Natural Killer cell", "Dendritic cell"))
 
 RidgePlot(scvi, features = "ENSG00000134539", idents = c("Natural Killer cell", "Dendritic cell"), layer = "counts") + 
+  scale_fill_manual(values = c(
+    "Dendritic cell" = "#FF9B99",
+    "Natural Killer cell" = "#375DBE" 
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
+# Scanorama
+Idents(Scanorama) <- "cell_type_ontology_term_id"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "dendritic cell" = "Dendritic cell",
+  "natural killer cell" = "Natural Killer cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Natural Killer cell", "Dendritic cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000134539", idents = c("Natural Killer cell", "Dendritic cell"), layer = "counts") + 
   scale_fill_manual(values = c(
     "Dendritic cell" = "#FF9B99",
     "Natural Killer cell" = "#375DBE" 
@@ -2681,6 +2871,32 @@ RidgePlot(scvi, features = "ENSG00000204287", idents = c("Natural Killer cell", 
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type_ontology_term_id"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "dendritic cell" = "Dendritic cell",
+  "natural killer cell" = "Natural Killer cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Dendritic cell", "Natural Killer cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000204287", idents = c("Natural Killer cell", "Dendritic cell"), layer = "counts") + 
+  scale_fill_manual(values = c(
+    "Dendritic cell" = "#FF9B99",
+    "Natural Killer cell" = "#375DBE" 
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
 ###### ENSG00000196126 OVERLAP #####
 # check the significance
 list <- c("logN_MM", "limma_MM", "fast_MM", "scvi_MM", "M3_MM")
@@ -2864,6 +3080,63 @@ RidgePlot(scvi, features = "ENSG00000196126", idents = c("Natural Killer cell", 
         axis.line.x = element_blank(),
         axis.ticks = element_line(color = "black"))
 
+# Scanorama
+Idents(Scanorama) <- "cell_type_ontology_term_id"
+Scanorama <- RenameIdents(
+  Scanorama,
+  "dendritic cell" = "Dendritic cell",
+  "natural killer cell" = "Natural Killer cell"
+)
+
+Idents(Scanorama) <- factor(Idents(Scanorama),
+                       levels = c("Dendritic cell", "Natural Killer cell"))
+
+RidgePlot(Scanorama, features = "ENSG00000196126", idents = c("Natural Killer cell", "Dendritic cell"), layer = "counts") + 
+  scale_fill_manual(values = c(
+    "Dendritic cell" = "#FF9B99",
+    "Natural Killer cell" = "#375DBE" 
+  )) +
+  theme(legend.position = "none",
+        axis.text.y = element_text(color = "black", size = 12.5),
+        axis.text.x = element_text(color = "black", size = 13),
+        axis.title = element_blank(),
+        panel.grid.major.x = element_blank(),
+        title = element_blank(),
+        axis.line.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.ticks = element_line(color = "black"))
+
+### ----- Sup Fig 1: ----
+
+# This is done for all of the datasets
+ds <- readRDS("./prep_FINAL.rds")
+
+cells_by_cell_type_and_technology <- ds@meta.data %>%
+  group_by(cell_type, assay, new_id) %>%
+  summarize(nCells = n()) %>%
+  ungroup()
+
+ggplot(cells_by_cell_type_and_technology, aes(x = cell_type, y = nCells, fill = assay)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Cell Type", y = "Number of Cells") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(color = "black", angle = 90, vjust = 0.5, hjust=1, size = 12),
+    axis.text.y = element_text(color = "black", size = 13),
+    axis.title = element_blank(),
+    panel.grid.major = element_line(color = "gray90"),
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor = element_blank(),
+    plot.title = element_blank(),
+    axis.line = element_line(color = "black", linewidth = 1)
+  ) +
+  facet_wrap( ~ new_id, scales = "free_y",  nrow = 3)+ 
+  scale_fill_manual(
+    values = c("#e31a1c", "#1f78b4")) +
+  scale_y_continuous(
+    limits = c(0, 1500),
+    breaks = seq(0, 1500, 250))
+
 
 ### ----- Sup Fig 2: ----
 
@@ -2946,52 +3219,20 @@ DimPlot(reduced, reduction = "umap", group.by = "assay", cols = c("#e31a1c", "#1
     legend.position = "none"                # remove legend
   )
 
-### ----- Sup Fig 1: ----
-
-# This is done for all of the datasets
-ds <- readRDS("./prep_FINAL.rds")
-
-cells_by_cell_type_and_technology <- ds@meta.data %>%
-  group_by(cell_type, assay, new_id) %>%
-  summarize(nCells = n()) %>%
-  ungroup()
-
-ggplot(cells_by_cell_type_and_technology, aes(x = cell_type, y = nCells, fill = assay)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(x = "Cell Type", y = "Number of Cells") +
-  theme_minimal() +
-  theme(
-    axis.text.x = element_text(color = "black", angle = 90, vjust = 0.5, hjust=1, size = 12),
-    axis.text.y = element_text(color = "black", size = 13),
-    axis.title = element_blank(),
-    panel.grid.major = element_line(color = "gray90"),
-    panel.grid.major.x = element_blank(),
-    panel.grid.minor = element_blank(),
-    plot.title = element_blank(),
-    axis.line = element_line(color = "black", linewidth = 1)
-  ) +
-  facet_wrap( ~ new_id, scales = "free_y",  nrow = 3)+ 
-  scale_fill_manual(
-    values = c("#e31a1c", "#1f78b4")) +
-  scale_y_continuous(
-    limits = c(0, 1500),
-    breaks = seq(0, 1500, 250))
-
-
 ### -- Sup Fig 3: ----
 split_df <- readRDS("./HVF_FINAL_all_DSandTechniques_NOT_to_baseline.rds")
 split_df <- readRDS("./800_FINAL_all_DSandTechniques_NOT_to_baseline.rds")
 
 ## Plotting
-split_df$corr$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$corr$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                             "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$cos$norm <- factor(split_df$cos$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$cos$norm <- factor(split_df$cos$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                           "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$Euc$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$Euc$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$MSE$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$MSE$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$JSD$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+split_df$JSD$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 
 pref <- "HVF_" # or "800_"
@@ -3194,6 +3435,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z-transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
@@ -3260,6 +3502,8 @@ mnn <- readRDS(paste0("./mnn_JS_sum",tis,".rds"))
 JS_df <- rbind(JS_df, mnn)
 Fast <- readRDS(paste0("./fast_JS_sum",tis,".rds"))
 JS_df <- rbind(JS_df, Fast)
+Scanorama <- readRDS(paste0("./scanorama_JS_sum",tis,".rds"))
+JS_df <- rbind(JS_df, Scanorama)
 limma <- readRDS(paste0("./limma_JS_sum",tis,".rds"))
 JS_df <- rbind(JS_df, limma)
 Z_t <- readRDS(paste0("./Z_JS_sum",tis,".rds"))
@@ -3275,7 +3519,7 @@ JS_df <- rbind(JS_df, SC)
 SC_s <- readRDS(paste0("./SC_split_JS_sum",tis,"_2.rds"))
 JS_df <- rbind(JS_df, SC_s)
 
-JS_df$norm  <- factor(JS_df$norm , levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+JS_df$norm  <- factor(JS_df$norm , levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                               "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 
 col <- scale_fill_manual(values = c(
@@ -3284,6 +3528,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z-transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
@@ -3350,6 +3595,7 @@ ComBat <- readRDS(paste0("./ComBat_raw_markers",tis,".rds"))
 limma <- readRDS(paste0("./limma_raw_markers",tis,".rds"))
 mnnCorrect <- readRDS(paste0("./mnn_raw_markers",tis,".rds"))
 fastMNN <- readRDS(paste0("./fast_raw_markers",tis,".rds"))
+Scanorama <- readRDS(paste0("./scanorama_raw_markers",tis,".rds"))
 Z_transform <- readRDS(paste0("./Z_raw_markers",tis,".rds"))
 SCVI <- readRDS(paste0("./",DS,"_scvi_raw_markers.rds"))
 scArches <- readRDS(paste0("./",DS,"_scArches_raw_markers.rds"))
@@ -3358,7 +3604,7 @@ scTransform_v5 <- readRDS(paste0("./SC_raw_markers",tis,"_2.rds"))
 scTransform_v5_split <- readRDS(paste0("./SC_split_raw_markers",tis,"_2.rds"))
 
 list <- unique(sub("_[^_]+$", "", names(ComBat)))
-tech <- c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Z_transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split")
+tech <- c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama", "Z_transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split")
 
 jaccard_scores <- list()
 
@@ -3391,7 +3637,7 @@ for (t in tech) {
   }
 }
 
-final$norm  <- factor(final$norm , levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", 
+final$norm  <- factor(final$norm , levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                               "Z_transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 
 col <- scale_fill_manual(values = c(
@@ -3400,6 +3646,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z_transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
