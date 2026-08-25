@@ -6,6 +6,7 @@ library(reshape2)
 library(ggplot2)
 library(dplyr)
 
+# Load one object at a time
 ### for HVFs
 result_list <- readRDS("./result_mnnCorrect_hvf.rds")
 result_list <- readRDS("./result_limma_hvf.rds")
@@ -13,6 +14,7 @@ result_list <- readRDS("./result_ComBat_hvf.rds")
 result_list <- readRDS("./result_M3Drop_hvf.rds")
 result_list <- readRDS("./result_z_trans_hvf.rds")
 result_list <- readRDS("./result_fastMNN_hvf.rds")
+result_list <- readRDS("./result_scanorama_hvf.rds")
 result_list <- readRDS("./result_logNorm_hvf.rds")
 result_list <- readRDS("./result_logNorm_scaled_hvf.rds")
 result_list <- readRDS("./result_scTransf_hvf.rds")
@@ -30,6 +32,7 @@ result_list <- readRDS(paste0("./DS",ds,"_result_ComBat_800.rds"))
 result_list <- readRDS(paste0("./DS",ds,"_result_M3Drop_800.rds"))
 result_list <- readRDS(paste0("./DS",ds,"_result_z_transf_800.rds"))
 result_list <- readRDS(paste0("./DS",ds,"_result_fastMNN_800.rds"))
+result_list <- readRDS(paste0("./DS",ds,"_result_scanorama_800.rds"))
 result_list <- readRDS(paste0("./DS",ds,"_result_scTransf_800.rds"))
 result_list <- readRDS(paste0("./DS",ds,"_result_scTransf_split_800.rds"))
 result_list <- readRDS(paste0("./DS",ds,"_result_logNorm_800.rds"))
@@ -87,6 +90,7 @@ saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_ComBat_metrics_meanIndiv.rds"
 saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_M3Drop_metrics_meanIndiv.rds"))
 saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_Z_metrics_meanIndiv.rds"))
 saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_fastMNN_metrics_meanIndiv.rds"))
+saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_scanorama_metrics_meanIndiv.rds"))
 saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_scT_v5_metrics_meanIndiv.rds"))
 saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_scT_v5_split_metrics_meanIndiv.rds"))
 saveRDS(data_df, paste0("./Visual Objects/DS",ds,"_logNorm_metrics_meanIndiv.rds"))
@@ -103,6 +107,7 @@ CB <- readRDS(paste0("./Visual Objects/",ds,"ComBat_metrics_meanIndiv.rds"))
 M3 <- readRDS(paste0("./Visual Objects/",ds,"M3Drop_metrics_meanIndiv.rds"))
 Z <- readRDS(paste0("./Visual Objects/",ds,"Z_metrics_meanIndiv.rds"))
 fast <- readRDS(paste0("./Visual Objects/",ds,"fastMNN_metrics_meanIndiv.rds"))
+scanorama <- readRDS(paste0("./Visual Objects/",ds,"scanorama_metrics_meanIndiv.rds"))
 log <- readRDS(paste0("./Visual Objects/",ds,"logNorm_metrics_meanIndiv.rds"))
 logS <- readRDS(paste0("./Visual Objects/",ds,"logNormScaled_metrics_meanIndiv.rds"))
 scT5 <- readRDS(paste0("./Visual Objects/",ds,"scT_v5_metrics_meanIndiv.rds"))
@@ -130,6 +135,8 @@ Z <- do_avg(Z)
 Z$norm <- "Z-transform"
 fast <- do_avg(fast)
 fast$norm <- "fastMNN"
+scanorama <- do_avg(scanorama)
+scanorama$norm <- "Scanorama"
 log <- do_avg(log)
 log$norm <- "Log_Normalize"
 logS <- do_avg(logS)
@@ -149,6 +156,7 @@ all_techniques <- rbind(
   data.frame(norm = "limma", limma),
   data.frame(norm = "mnnCorrect", mnn),
   data.frame(norm = "fastMNN", fast),
+  data.frame(norm = "Scanorama", scanorama),
   data.frame(norm = "Z-transform", Z),
   data.frame(norm = "SCVI", scvi_2),
   data.frame(norm = "scArches", sca_2),
@@ -188,6 +196,7 @@ CB <- normalize_technique(CB, log)
 M3 <- normalize_technique(M3, logS)
 Z <- normalize_technique(Z, log)
 fast <- normalize_technique(fast, log)
+scanorama <- normalize_technique(scanorama, log)
 scT5 <- normalize_technique(scT5, logS)
 scT5_s <- normalize_technique(scT5_s, logS)
 scvi_2 <- normalize_technique(scvi_2, log)
@@ -195,7 +204,7 @@ sca_2 <- normalize_technique(sca_2, log)
 
 
 # Combine all normalized techniques into one data frame
-together <- rbind(CB, limma, mnn, fast, Z, scvi_2, sca_2, scT5, scT5_s, M3)
+together <- rbind(CB, limma, mnn, fast, scanorama, Z, scvi_2, sca_2, scT5, scT5_s, M3)
 together$DS <- "" # The dataset number
 
 loc <- "" #specify folder
