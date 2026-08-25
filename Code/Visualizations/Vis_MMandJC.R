@@ -21,6 +21,8 @@ mnn <- readRDS(paste0("./mnn_MM_assay",tis,".rds"))
 MM_df$mnnCorrect <- mnn
 fast <- readRDS(paste0("./fast_MM_assay",tis,".rds"))
 MM_df$fastMNN <- fast
+scanorama <- readRDS(paste0("./scanorama_MM_assay",tis,".rds"))
+MM_df$Scanorama <- scanorama
 limma <- readRDS(paste0("./limma_MM_assay",tis,".rds"))
 MM_df$limma <- limma
 Z_t <- readRDS(paste0("./Z_MM_assay",tis,".rds"))
@@ -51,6 +53,8 @@ mnn <- readRDS(paste0("./mnn_MM_cell",tis,".rds"))
 MM_df$mnnCorrect <- mnn
 fast <- readRDS(paste0("./fast_MM_cell",tis,".rds"))
 MM_df$fastMNN <- fast
+scanorama <- readRDS(paste0("./scanorama_MM_cell",tis,".rds"))
+MM_df$Scanorama <- scanorama
 limma <- readRDS(paste0("./limma_MM_cell",tis,".rds"))
 MM_df$limma <- limma
 Z_t <- readRDS(paste0("./Z_MM_cell",tis,".rds"))
@@ -81,6 +85,8 @@ mnn <- readRDS(paste0("./mnn_JS_sum",tis,".rds"))
 JS_df <- rbind(JS_df, mnn)
 Fast <- readRDS(paste0("./fast_JS_sum",tis,".rds"))
 JS_df <- rbind(JS_df, Fast)
+scanorama <- readRDS(paste0("./scanorama_JS_sum",tis,".rds"))
+JS_df <- rbind(JS_df, scanorama)
 limma <- readRDS(paste0("./limma_JS_sum",tis,".rds"))
 JS_df <- rbind(JS_df, limma)
 Z_t <- readRDS(paste0("./Z_JS_sum",tis,".rds"))
