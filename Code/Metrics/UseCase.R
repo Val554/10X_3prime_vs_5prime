@@ -147,18 +147,18 @@ saveRDS(merged_data, "./DS_merged_data_scarce_cell_types_25.rds") # Specify the 
 ## ------ Load the integrated data --------
 
 # -----> For 100%
-# Scaled_LogNorm, Scaled_fastMNN, Scaled_limma, Scaled_m3drop, Scaled_scvi
+# Scaled_LogNorm, Scaled_fastMNN, Scaled_scanorama, Scaled_limma, Scaled_m3drop, Scaled_scvi
 norm_data <- readRDS("./Scaled_X.rds") # Specify the correction technique - X
 norm_data <- norm_data[c("F29_45P", "F30_45P", "F38_45P",  "P1_CD3P")] # for DS1
 norm_data <- norm_data[c("F32_CD45P_liver", "F34_CD45P_liver", "F38_CD45P_liver",  "F41_CD45P_liver")] # for DS2lv
 
 # ----> For the 25%
-norm_data <- readRDS("./clean_sparse/DS1_merged_list_scTransf_regr_assay_split_25.rds")
+norm_data <- readRDS("./DS1_merged_list_scTransf_regr_assay_split_25.rds")
 
 Idents(norm_data) <- "cell_type_ontology_term_id" # for DS2 and 6
-# For M3Drop and scvi
+# For M3Drop, scanorama, and scvi
 norm_data <- SetAssayData(norm_data, layer = "scale.data", new.data = GetAssayData(norm_data, layer = "counts"))
-# For fastMNN, limma and logN
+# For fastMNN, limma, and logN
 norm_data <- SetAssayData(norm_data, layer = "scale.data", new.data = GetAssayData(norm_data, layer = "data"))
 
 # Now the data is ready for the DE analysis, but we need to split it by individual first to be able to compare the results with the gold standard.
@@ -172,8 +172,8 @@ for(i in names(norm_data_list)) {
   print(i)
   obj <- norm_data_list[[i]]
   
-  #obj <- SetAssayData(obj, layer = "scale.data", new.data = GetAssayData(obj, layer = "counts")) # For 100% -> M3
-  #obj <- SetAssayData(obj, layer = "scale.data", new.data = GetAssayData(obj, layer = "data")) # For 100% -> logN, fastMNN, limma, scvi
+  #obj <- SetAssayData(obj, layer = "scale.data", new.data = GetAssayData(obj, layer = "counts")) # For 100% -> M3, scanorama, scvi
+  #obj <- SetAssayData(obj, layer = "scale.data", new.data = GetAssayData(obj, layer = "data")) # For 100% -> logN, fastMNN, limma
   
   Idents(obj) <- "cell_type_ontology_term_id" 
 
@@ -269,7 +269,7 @@ saveRDS(new, "./clean_sparse/DS6_intersect_truth_labels_intersect_noFC.rds")
 
 # ---- MCC Scores ----
 
-techno <- c("logN", "fast", "limma", "M3Drop", "scvi")
+techno <- c("logN", "fast", "scanorama", "limma", "M3Drop", "scvi")
 
 DS <- "DS1"
 n <- "100" # 25 or 100
