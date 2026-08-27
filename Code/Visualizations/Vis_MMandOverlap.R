@@ -74,7 +74,7 @@ MM_df$M3Drop <- M3
 melted_data <- reshape2::melt(MM_df, id.vars = "Individual")
 saveRDS(melted_data, paste0("./FINAL_MM_cell",tis,".rds"))
 
-# ----- 2] Jaccard Scores ----
+# ----- 2] Overlap Scores ----
 
 tis <- "" # Specify the tissue for dataset 2
 LN <- readRDS(paste0("./LogNorm_JS_sum",tis,".rds"))
