@@ -16,7 +16,7 @@ library(philentropy)
 object <- readRDS("./X_corrected.RDS") 
 
 #--- Additional step for the uncorrected data (log normalized)
-object <- split(object, f = obj@meta.data$new_id)
+object <- split(object, f = object@meta.data$new_id)
 object <- NormalizeData(object, normalization.method = "LogNormalize", scale.factor = 10000)
 object <- FindVariableFeatures(object, nfeatures = 3000) 
 saveRDS(VariableFeatures(object), "./hvf.rds") # Save the highly variable features for later use.
