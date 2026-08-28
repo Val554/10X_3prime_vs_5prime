@@ -49,7 +49,7 @@ ggplot(RNA_per_donor_assay, aes(x = new_id, y = mean_RNA, fill = assay)) +
 
 features_per_donor_assay <- ds@meta.data %>%
   group_by(assay, new_id) %>%
-  summarize(mean_nFeatures = mean(nFeaturess_RNA, na.rm = TRUE)) %>%
+  summarize(mean_nFeatures = mean(nFeatures_RNA, na.rm = TRUE)) %>%
   ungroup()
 ggplot(features_per_donor_assay, aes(x = new_id, y = mean_nFeatures, fill = assay)) +
   geom_bar(stat = "identity", position = "dodge") +
