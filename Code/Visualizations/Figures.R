@@ -364,6 +364,7 @@ col <- scale_fill_manual(values = c(
   "limma" = "#1f78b4",
   "mnnCorrect" = "#b2df8a",
   "fastMNN" = "#33a02c",
+  "Scanorama" = "#5e8011",
   "Z-transform" = "#fb9a99",
   "SCVI" = "#fdbf6f",
   "scArches" = "#ff7f00",
@@ -885,8 +886,8 @@ if (DS =="DS2lv"){
   df$name[df$name == "F38_CD45P_liver"] <- "F38_CD45P"
   df$name[df$name == "F41_CD45P_liver"] <- "F41_CD45P"
 }
-
-df$group <- factor(df$group, levels = c("Log_Normalize", "limma", "fastMNN", "SCVI", "M3Drop"))
+ 
+df$group <- factor(df$group, levels = c("Log_Normalize", "limma", "fastMNN", "Scanorama", "SCVI", "M3Drop"))
 
 col <- scale_fill_manual(values = c(
   "Log_Normalize" = "lightgrey",
@@ -958,7 +959,7 @@ if (DS =="DS2lv"){
   df$name[df$name == "F41_CD45P_liver"] <- "F41_CD45P"
 }
 
-df$group <- factor(df$group, levels = c("Log_Normalize", "limma", "fastMNN", "SCVI", "M3Drop"))
+df$group <- factor(df$group, levels = c("Log_Normalize", "limma", "fastMNN", "Scanorama", "SCVI", "M3Drop"))
 
 ggplot(df,  aes(x = group, y = value, fill = group)) +
   geom_boxplot(outliers = FALSE) + # Boxplot without outliers
@@ -1103,6 +1104,7 @@ ggplot(df, aes(x = direction, y = value, fill = method)) +
     values = c(
       "Truth" = "#6a3d9a",
       "fastMNN" = "#33a02c",
+      "Scanorama" = "#5e8011"
       "limma" = "#1f78b4",
       "Log Normalize" = "lightgrey",
       "M3Drop" = "#e31a1c",
