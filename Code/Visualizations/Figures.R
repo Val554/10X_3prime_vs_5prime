@@ -350,11 +350,11 @@ split_df$corr$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "
                                                             "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 split_df$cos$norm <- factor(split_df$cos$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                           "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$Euc$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
+split_df$Euc$norm <- factor(split_df$Euc$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$MSE$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
+split_df$MSE$norm <- factor(split_df$MSE$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$JSD$norm <- factor(split_df$corr$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
+split_df$JSD$norm <- factor(split_df$JSD$norm, levels = c("ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 
 pref <- "800_"
@@ -3793,11 +3793,11 @@ split_df$corr$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "
                                                             "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 split_df$cos$norm <- factor(split_df$cos$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                           "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$Euc$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
+split_df$Euc$norm <- factor(split_df$Euc$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$MSE$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
+split_df$MSE$norm <- factor(split_df$MSE$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
-split_df$JSD$norm <- factor(split_df$corr$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
+split_df$JSD$norm <- factor(split_df$JSD$norm.1, levels = c("Log_Normalize", "ComBat", "limma", "mnnCorrect", "fastMNN", "Scanorama",
                                                            "Z-transform", "SCVI", "scArches", "Log_Normalize_Scale", "M3Drop", "scTransform_v5", "scTransform_v5_split"))
 
 pref <- "HVF_" # or "800_"
